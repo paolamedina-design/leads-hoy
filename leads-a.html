@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leads de hoy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .leads-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .lead-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: box-shadow 0.2s;
+        }
+
+        .lead-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .lead-info {
+            flex: 1;
+        }
+
+        .lead-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .lead-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .lead-stage {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .stage-nuevo {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .stage-contactado {
+            background-color: #fff3e0;
+            color: #f57c00;
+        }
+
+        .stage-calificado {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .stage-interesado {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .lead-message {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .lead-time {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .btn-responder {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-responder:hover {
+            background-color: #20ba5a;
+        }
+
+        .btn-responder:active {
+            background-color: #1ea952;
+        }
+
+        .empty-state {
+            background: white;
+            border-radius: 8px;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .empty-title {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .empty-description {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .toggle-view {
+            margin-bottom: 20px;
+        }
+
+        .toggle-btn {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Leads de hoy</h1>
+            <p class="subtitle">4 conversaciones esperando respuesta</p>
+        </header>
+
+        <div class="toggle-view">
+            <button class="toggle-btn" onclick="toggleView()">Ver estado sin leads</button>
+        </div>
+
+        <div id="with-leads" class="leads-list">
+            <div class="lead-card">
+                <div class="lead-info">
+                    <div class="lead-header">
+                        <span class="lead-name">María González</span>
+                        <span class="lead-stage stage-nuevo">Nuevo</span>
+                    </div>
+                    <p class="lead-message">Hola, me interesa saber más sobre sus servicios. ¿Tienen planes para pequeñas empresas?</p>
+                    <span class="lead-time">Hace 5 minutos</span>
+                </div>
+                <button class="btn-responder" onclick="responder('María González')">Responder</button>
+            </div>
+
+            <div class="lead-card">
+                <div class="lead-info">
+                    <div class="lead-header">
+                        <span class="lead-name">Carlos Ramírez</span>
+                        <span class="lead-stage stage-contactado">Contactado</span>
+                    </div>
+                    <p class="lead-message">Gracias por la info. ¿Cuánto tiempo toma la implementación? Necesito algo rápido</p>
+                    <span class="lead-time">Hace 23 minutos</span>
+                </div>
+                <button class="btn-responder" onclick="responder('Carlos Ramírez')">Responder</button>
+            </div>
+
+            <div class="lead-card">
+                <div class="lead-info">
+                    <div class="lead-header">
+                        <span class="lead-name">Ana Martínez</span>
+                        <span class="lead-stage stage-calificado">Calificado</span>
+                    </div>
+                    <p class="lead-message">Ya vi la demo. Me gustaría agendar una llamada para resolver algunas dudas técnicas antes de decidir</p>
+                    <span class="lead-time">Hace 1 hora</span>
+                </div>
+                <button class="btn-responder" onclick="responder('Ana Martínez')">Responder</button>
+            </div>
+
+            <div class="lead-card">
+                <div class="lead-info">
+                    <div class="lead-header">
+                        <span class="lead-name">Roberto Flores</span>
+                        <span class="lead-stage stage-interesado">Interesado</span>
+                    </div>
+                    <p class="lead-message">Perfecto, entonces me envías el contrato y lo reviso con mi socio. ¿Lo puedes mandar hoy?</p>
+                    <span class="lead-time">Hace 2 horas</span>
+                </div>
+                <button class="btn-responder" onclick="responder('Roberto Flores')">Responder</button>
+            </div>
+        </div>
+
+        <div id="without-leads" class="empty-state hidden">
+            <div class="empty-icon">💬</div>
+            <h2 class="empty-title">No hay leads pendientes</h2>
+            <p class="empty-description">Cuando lleguen nuevos mensajes aparecerán aquí</p>
+        </div>
+    </div>
+
+    <script>
+        function responder(nombre) {
+            alert(`Abriendo conversación con ${nombre}...`);
+        }
+
+        function toggleView() {
+            const withLeads = document.getElementById('with-leads');
+            const withoutLeads = document.getElementById('without-leads');
+            const subtitle = document.querySelector('.subtitle');
+            const toggleBtn = document.querySelector('.toggle-btn');
+
+            if (withLeads.classList.contains('hidden')) {
+                withLeads.classList.remove('hidden');
+                withoutLeads.classList.add('hidden');
+                subtitle.textContent = '4 conversaciones esperando respuesta';
+                toggleBtn.textContent = 'Ver estado sin leads';
+            } else {
+                withLeads.classList.add('hidden');
+                withoutLeads.classList.remove('hidden');
+                subtitle.textContent = 'Todo al día';
+                toggleBtn.textContent = 'Ver leads de ejemplo';
+            }
+        }
+    </script>
+</body>
+</html>
